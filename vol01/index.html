@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Coffee Chat · 线下沙龙摘要</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4ede0; --paper-deep:#ebe2cf;
+    --ink:#1a1715; --ink-soft:#4a4540; --ink-mute:#7a7269;
+    --rule:#d8cdb5;
+    --vermilion:#b8351e; --vermilion-deep:#8a2715;
+    --ochre:#c98c2a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Noto Sans SC", system-ui, sans-serif;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(184,53,30,0.04), transparent 35%),
+      radial-gradient(circle at 88% 92%, rgba(90,107,60,0.05), transparent 40%);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(26,23,21,0.008) 3px 4px),
+      repeating-linear-gradient(90deg, transparent 0 3px, rgba(26,23,21,0.008) 3px 4px);
+    pointer-events:none; z-index:1;
+  }
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:clamp(2rem, 5vw, 5rem) clamp(1.25rem, 4vw, 4rem);
+    position:relative; z-index:2;
+  }
+
+  /* MASTHEAD */
+  .masthead{
+    display:grid; grid-template-columns:1fr auto;
+    align-items:end; gap:2rem;
+    padding-bottom:1.5rem;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:0.4rem;
+  }
+  .kicker{
+    font-family:"EB Garamond","Noto Serif SC",serif;
+    font-style:italic; color:var(--vermilion);
+    font-size:clamp(0.95rem, 1.3vw, 1.15rem);
+  }
+  .kicker::before{ content:"❦  "; color:var(--ochre); font-style:normal; }
+  h1.title{
+    font-family:"Noto Serif SC", serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 6vw, 4.8rem);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    margin-top:0.3rem;
+  }
+  h1.title em{
+    font-family:"EB Garamond", serif;
+    font-style:italic; font-weight:500;
+    color:var(--vermilion);
+  }
+  .masthead-right{
+    display:flex; flex-direction:column;
+    align-items:flex-end;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.78rem; color:var(--ink-soft);
+    text-align:right; line-height:1.6;
+  }
+  .masthead-right .issue{
+    font-size:0.7rem; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--ink-mute);
+  }
+  .masthead-rule{
+    border-bottom:1px solid var(--ink);
+    height:6px; margin-bottom:2.5rem;
+  }
+
+  /* DECK */
+  .deck{
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.1rem, 1.6vw, 1.35rem);
+    line-height:1.55;
+    color:var(--ink-soft);
+    margin-bottom:3.5rem;
+    max-width:42rem;
+  }
+  .deck::first-letter{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-size:4.2em; float:left;
+    line-height:0.85;
+    margin:0.05em 0.12em -0.05em 0;
+    color:var(--vermilion); font-weight:700;
+  }
+
+  /* TOPICS */
+  section.topic{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:clamp(1rem, 3vw, 2.5rem);
+    padding:2.5rem 0;
+    border-top:1px solid var(--rule);
+    align-items:baseline;
+  }
+  section.topic:first-of-type{ border-top:none; padding-top:0; }
+  .topic-num{
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    font-size:2.4rem;
+    color:var(--vermilion);
+    font-weight:500;
+    line-height:1;
+  }
+  h2.topic-title{
+    font-family:"Noto Serif SC", serif;
+    font-weight:700;
+    font-size:clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height:1.2;
+    margin-bottom:0.9rem;
+    letter-spacing:-0.01em;
+  }
+  h2.topic-title .accent{
+    font-family:"EB Garamond", serif;
+    font-style:italic; color:var(--vermilion);
+    font-weight:500;
+  }
+  .topic-body p{
+    font-size:1rem;
+    color:var(--ink-soft);
+  }
+  .topic-body p strong{
+    color:var(--ink); font-weight:700;
+    background:linear-gradient(transparent 62%, rgba(201,140,42,0.28) 62%);
+    padding:0 2px;
+  }
+  @media(max-width:640px){
+    section.topic{ grid-template-columns:1fr; gap:0.4rem; }
+    .topic-num{ font-size:1.6rem; }
+    .masthead{ grid-template-columns:1fr; }
+    .masthead-right{ align-items:flex-start; text-align:left; }
+  }
+
+  /* INSIGHTS */
+  .insights{
+    margin:5rem 0 0;
+    padding-top:3rem;
+    border-top:2px solid var(--ink);
+  }
+  .insights-head{
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.5rem, 2.6vw, 2rem);
+    font-weight:900;
+    margin-bottom:2rem;
+  }
+  .insights-head em{
+    font-family:"EB Garamond", serif;
+    font-style:italic; color:var(--vermilion); font-weight:500;
+  }
+  .insights-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:1.8rem 2.5rem;
+  }
+  .insight{
+    display:grid; grid-template-columns:auto 1fr;
+    gap:1rem; align-items:start;
+  }
+  .insight-num{
+    font-family:"EB Garamond", serif;
+    font-style:italic; font-size:1.6rem;
+    color:var(--vermilion); line-height:1;
+    font-weight:500;
+  }
+  .insight-text h3{
+    font-family:"Noto Serif SC", serif;
+    font-size:1rem; font-weight:700;
+    margin-bottom:0.3rem; color:var(--ink);
+  }
+  .insight-text p{
+    color:var(--ink-soft);
+    font-size:0.88rem; line-height:1.55;
+  }
+
+  /* COLOPHON */
+  .colophon{
+    text-align:center;
+    padding:4rem 0 1rem;
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--ink-mute);
+    font-size:0.85rem;
+  }
+  .colophon .ornament{
+    font-size:1.2rem;
+    color:var(--vermilion);
+    margin-bottom:0.6rem;
+    letter-spacing:0.6em;
+  }
+
+  /* TOP NAV */
+  .topnav{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:2.5rem;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-mute);
+    letter-spacing:0.05em;
+  }
+  .topnav a{
+    color:var(--ink-soft); text-decoration:none;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:2px;
+    transition:color 0.2s ease, border-color 0.2s ease;
+  }
+  .topnav a:hover{ color:var(--vermilion); border-color:var(--vermilion); }
+  .topnav .brand{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.95rem;
+    border:none;
+    padding:0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <a href="../" class="brand">❦ AI Coffee Chat</a>
+    <a href="../">← 返回首页</a>
+  </nav>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <span class="kicker">Vol. 01 · 2026.05.10</span>
+      <h1 class="title">钱、技术<br/>与<em>生活方式</em></h1>
+    </div>
+    <div class="masthead-right">
+      <span class="issue">Field Notes</span>
+      <span>线下沙龙 · 多人交流</span>
+      <span>~120 min</span>
+    </div>
+  </header>
+  <div class="masthead-rule"></div>
+
+  <!-- DECK -->
+  <p class="deck">
+    一场没有议程的线下沙龙。来自硬件、机器人、一二级市场、AI 应用、宠物行业、跨境电商、ML 工程等方向的从业者，各自抛出对当下"AI 落地"的真实观察。以下是被反复印证、值得记下的几个判断。
+  </p>
+
+  <!-- TOPIC 1 -->
+  <section class="topic">
+    <div class="topic-num">I</div>
+    <div class="topic-body">
+      <h2 class="topic-title">硬件交互的<span class="accent">窗户纸</span>还没被捅破</h2>
+      <p>
+        AI 眼镜、耳机、戒指、挂坠这一波都不算成熟。技术不是瓶颈，<strong>交互怎么被重新定义</strong>才是。手机仍是上一时代的集大成者，下一代载体的形态还没有真正的答案。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section class="topic">
+    <div class="topic-num">II</div>
+    <div class="topic-body">
+      <h2 class="topic-title">机器人：<span class="accent">通用是泡沫，专用先落地</span></h2>
+      <p>
+        通用机器人短期内更接近估值游戏；<strong>垂直场景（如工业危险作业）</strong>反而更早能拿到客户验证。商业模式倾向<strong>项目制服务</strong>而非卖设备——客户更愿意按项目付费。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section class="topic">
+    <div class="topic-num">III</div>
+    <div class="topic-body">
+      <h2 class="topic-title">一级市场：<span class="accent">估值很大程度上靠拍脑袋</span></h2>
+      <p>
+        早期项目估值的四个支柱：团队、产品成熟度、市场广度、商业闭环。但议价仍是博弈——<strong>报得太高会被腰斩，报得太低反而投不了</strong>，估值低本身就意味着创始人不信自己的天花板。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section class="topic">
+    <div class="topic-num">IV</div>
+    <div class="topic-body">
+      <h2 class="topic-title">二级市场用 AI：<span class="accent">聚合信息，不接交易</span></h2>
+      <p>
+        AI 在投研中负责信息收集、聚合、分析，但<strong>不让它直接下单</strong>——交易最怕漂移和不稳定。评估策略好坏的标准是稳定性，不是收益强弱。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 5 -->
+  <section class="topic">
+    <div class="topic-num">V</div>
+    <div class="topic-body">
+      <h2 class="topic-title">宠物 + AI：<span class="accent">情绪价值与诊疗辅助</span></h2>
+      <p>
+        娱乐层（"翻译"宠物叫声）已有市场，本质是情绪价值买单。<strong>更值得做的是诊疗辅助</strong>——结合行为学、声纹、智能猫砂等数据，真正帮医生缩短问诊路径。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 6 -->
+  <section class="topic">
+    <div class="topic-num">VI</div>
+    <div class="topic-body">
+      <h2 class="topic-title">出海电商：<span class="accent">个人杠杆做轻资产</span></h2>
+      <p>
+        普通电商利润太薄，<strong>必须用个人能力为商品赋能</strong>。按需印刷 + 独立站 + AI 工作流，一个人就能跑通闭环。大体量玩家看不上的低利润窗口，恰是个人杠杆者的机会。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 7 -->
+  <section class="topic">
+    <div class="topic-num">VII</div>
+    <div class="topic-body">
+      <h2 class="topic-title">大模型选型：<span class="accent">不要被单一模型绑架</span></h2>
+      <p>
+        任何一家厂商的可用性都不是 100%。<strong>把人格、知识库、流程沉淀在自己后端</strong>，让基础模型成为可替换的触手——这是当前 AI 应用层的工程默认值。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 8 -->
+  <section class="topic">
+    <div class="topic-num">VIII</div>
+    <div class="topic-body">
+      <h2 class="topic-title">职场：<span class="accent">奖励机制 &gt; 惩罚机制</span></h2>
+      <p>
+        项目阶段演化会自然带来重心转移，但当事人很难看见这一层。管理者的关键是<strong>每一次努力都给正反馈</strong>——氪金游戏的保底设计，可以平移到组织设计。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 9 -->
+  <section class="topic">
+    <div class="topic-num">IX</div>
+    <div class="topic-body">
+      <h2 class="topic-title">生活方式：<span class="accent">线下能量是必需品</span></h2>
+      <p>
+        数字游民的孤岛感会反过来吞噬效率，<strong>哪怕在创业也需要工位和线下交流</strong>。不同市场的商业文化（节奏、监管、细节标准）是产品设计与销售路径必须先理解的环境约束。
+      </p>
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section class="insights">
+    <h2 class="insights-head">三条<em> Cross-cuts</em></h2>
+    <div class="insights-grid">
+      <div class="insight">
+        <div class="insight-num">01</div>
+        <div class="insight-text">
+          <h3>渠道 &gt; 技术</h3>
+          <p>AI 让生产成本逼近零，价值重心向流量端转移。谁能带来用户，谁就是真正的核心能力。</p>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="insight-num">02</div>
+        <div class="insight-text">
+          <h3>专用 &gt; 通用（短期）</h3>
+          <p>机器人、眼镜、AI 应用同理——通用型估值更高但落地慢，专用方向先拿到客单价和真实验证。</p>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="insight-num">03</div>
+        <div class="insight-text">
+          <h3>从业务流反推 AI 入口</h3>
+          <p>不是"做一个 AI 产品"，而是先理解真实工作流，再找哪一段被大模型重写后 ROI 最高。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <div class="ornament">❦ · ❦ · ❦</div>
+    Compiled and abstracted from meeting transcripts.
+  </footer>
+
+</div>
+
+</body>
+</html>
