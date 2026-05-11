@@ -257,9 +257,212 @@
     font-size:1.05rem;
   }
 
+  /* ABOUT / RULES */
+  .about{
+    margin-top:6rem;
+    padding-top:3.5rem;
+    border-top:2px solid var(--ink);
+  }
+  .about-head{
+    margin-bottom:3rem;
+    max-width:42rem;
+  }
+  .about-head .kicker{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:1rem;
+    display:block;
+    margin-bottom:0.6rem;
+  }
+  .about-head h2{
+    font-family:"Noto Serif SC", serif;
+    font-weight:900;
+    font-size:clamp(2rem, 4vw, 3rem);
+    line-height:1.05;
+    letter-spacing:-0.015em;
+    margin-bottom:1.2rem;
+  }
+  .about-head h2 em{
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-weight:500;
+  }
+  .about-head .lede{
+    font-family:"Noto Serif SC", serif;
+    color:var(--ink-soft);
+    font-size:clamp(1rem, 1.5vw, 1.15rem);
+    line-height:1.6;
+  }
+  .about-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:2.5rem 3.5rem;
+    margin-bottom:2.5rem;
+  }
+  .about-block h3{
+    font-family:"Noto Serif SC", serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:0.9rem;
+    padding-bottom:0.5rem;
+    border-bottom:1px solid var(--vermilion);
+    color:var(--ink);
+    display:inline-block;
+    padding-right:1rem;
+  }
+  .about-block p,
+  .about-block li{
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    line-height:1.65;
+  }
+  .about-block p{ margin-bottom:0.6rem; }
+  .about-block ul,
+  .about-block ol{
+    list-style:none;
+    counter-reset:step;
+  }
+  .about-block ul li{
+    padding:0.35rem 0 0.35rem 1.3rem;
+    position:relative;
+    border-bottom:1px dashed var(--rule);
+  }
+  .about-block ul li:last-child{ border-bottom:none; }
+  .about-block ul li::before{
+    content:"·";
+    position:absolute;
+    left:0.2rem;
+    color:var(--vermilion);
+    font-weight:700;
+    font-size:1.2rem;
+    line-height:1.4;
+  }
+  .about-block ol li{
+    counter-increment:step;
+    padding:0.45rem 0 0.45rem 2rem;
+    position:relative;
+    border-bottom:1px dashed var(--rule);
+  }
+  .about-block ol li:last-child{ border-bottom:none; }
+  .about-block ol li::before{
+    content:counter(step, decimal-leading-zero);
+    position:absolute;
+    left:0;
+    top:0.55rem;
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.85rem;
+    font-weight:700;
+    letter-spacing:0.05em;
+  }
+  .about-block strong{
+    color:var(--ink);
+    font-weight:700;
+  }
+  .about-block .hint{
+    display:block;
+    margin-top:0.3rem;
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--ink-mute);
+    font-size:0.86rem;
+  }
+  .about-block .meta{
+    margin-top:0.7rem;
+    color:var(--ink-mute);
+    font-size:0.88rem;
+    font-style:italic;
+  }
+  .about-warning{
+    background:var(--paper-deep);
+    border-left:4px solid var(--ochre);
+    padding:1.2rem 1.5rem;
+    margin-bottom:1rem;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    line-height:1.65;
+  }
+  .about-warning strong{
+    display:block;
+    color:var(--vermilion-deep);
+    font-weight:700;
+    margin-bottom:0.3rem;
+    font-family:"Noto Serif SC", serif;
+    letter-spacing:0.02em;
+  }
+  .about-warning.strict{
+    border-left-color:var(--vermilion);
+    background:rgba(184,53,30,0.06);
+  }
+  .about-warning.strict strong{
+    color:var(--vermilion);
+  }
+  @media (max-width:700px){
+    .about-grid{ grid-template-columns:1fr; gap:2rem; }
+  }
+
+  /* CONTACT */
+  .contact{
+    margin-top:5rem;
+    padding:2.2rem 2rem;
+    background:var(--paper-deep);
+    border:1px solid var(--rule);
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:1.8rem;
+    align-items:center;
+  }
+  .contact-label{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:1.1rem;
+    line-height:1;
+  }
+  .contact-msg{
+    font-family:"Noto Serif SC", serif;
+    color:var(--ink-soft);
+    font-size:0.98rem;
+    line-height:1.5;
+  }
+  .contact-msg strong{
+    color:var(--ink);
+    font-weight:500;
+  }
+  .contact-wechat{
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.92rem;
+    color:var(--ink);
+    background:var(--paper);
+    padding:0.6rem 1rem;
+    border:1px dashed var(--vermilion);
+    letter-spacing:0.05em;
+    user-select:all;
+    cursor:text;
+  }
+  .contact-wechat::before{
+    content:"WeChat";
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    margin-right:0.6rem;
+    font-size:0.8rem;
+    letter-spacing:0.1em;
+  }
+  @media(max-width:640px){
+    .contact{
+      grid-template-columns:1fr;
+      gap:1rem;
+      text-align:left;
+    }
+  }
+
   /* FOOTER */
   footer.colophon{
-    margin-top:6rem;
+    margin-top:3rem;
     padding-top:2rem;
     border-top:2px solid var(--ink);
     display:flex;
@@ -357,6 +560,75 @@
     </div>
 
   </div>
+
+  <!-- ABOUT / GROUP RULES -->
+  <section class="about">
+    <div class="about-head">
+      <span class="kicker">📢 关于这个群</span>
+      <h2>深圳 <em>AI Coffee Chat</em><br/>群规则</h2>
+      <p class="lede">
+        我们是一个 AI 从业者的线下交流群，让在深圳对于 AI 技术 × 商业 × 场景的伙伴有一个线下活动的机会。希望大家能分享信息、打破信息壁垒，更好地了解 AI 对于每个行业的机会。
+      </p>
+    </div>
+
+    <div class="about-grid">
+
+      <div class="about-block">
+        <h3>🗓 固定活动</h3>
+        <ul>
+          <li>每周日下午 <strong>两点半</strong>，市中心咖啡馆/茶馆，提前 1–2 天在群里发地点</li>
+          <li>周中不定期晚上小酌局 / 工作日下午咖啡局，时间地点随缘发起，群内同步</li>
+          <li>有徒步聊天群，可私信群主加入 👾</li>
+        </ul>
+      </div>
+
+      <div class="about-block">
+        <h3>☕ 活动顺序</h3>
+        <ol>
+          <li><strong>预备节</strong> · 活动前发起问题，接龙时附带<span class="hint">例：可乐 — AI 给情绪上人类带来的幸福多还是烦恼多？</span></li>
+          <li><strong>自我介绍</strong> · 可随意发挥，群主会和每个人聊天讨论，预计 2h</li>
+          <li><strong>讨论问题</strong> · 想的话可以准备一个想和大家讨论的问题（非强制）</li>
+          <li><strong>抽问题卡</strong> · 群主有小工具 😚，不会冷场</li>
+        </ol>
+        <p class="meta">正常活动预计 3–4h，看情况 🤓</p>
+      </div>
+
+      <div class="about-block">
+        <h3>👥 人数</h3>
+        <p>每场不限人数，非常欢迎多邀请自己的朋友来～</p>
+      </div>
+
+      <div class="about-block">
+        <h3>🤝 也可以自己约</h3>
+        <ul>
+          <li>群里有自我介绍，看昵称找感兴趣的人</li>
+          <li>想约人必须先附上自己的一段自我介绍</li>
+          <li>用昵称沟通，不强制交换微信、不强制实名</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="about-warning">
+      <strong>⚠️ 安全第一</strong>
+      第一次见面选公共场所（咖啡馆、茶馆、清吧），白天/晚间公开时段为佳，别去私人空间，别涉及金钱往来。任何让你不舒服的情况，随时退出，也欢迎私聊群主反馈。
+    </div>
+
+    <div class="about-warning strict">
+      <strong>⚠️ 红线</strong>
+      莫谈敏感话题、莫谈对立问题，不要发令女性不舒服的图片和表情包等。第一次警告，第二次飞机票。
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div class="contact-label">❦ 加群</div>
+    <div class="contact-msg">
+      想参加下一次线下，或者只是想聊聊正在做的事——<br/>
+      <strong>加群主微信，备注「AI Coffee Chat」。</strong>
+    </div>
+    <div class="contact-wechat">zZZ--018</div>
+  </section>
 
   <!-- FOOTER -->
   <footer class="colophon">
