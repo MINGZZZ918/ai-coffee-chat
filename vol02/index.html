@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vol. 02 · 女性主义 · 三种立场 — AI Coffee Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4ede0; --paper-deep:#ebe2cf;
+    --ink:#1a1715; --ink-soft:#4a4540; --ink-mute:#7a7269;
+    --rule:#d8cdb5;
+    --vermilion:#b8351e; --vermilion-deep:#8a2715;
+    --ochre:#c98c2a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Noto Sans SC", system-ui, sans-serif;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(184,53,30,0.04), transparent 35%),
+      radial-gradient(circle at 88% 92%, rgba(90,107,60,0.05), transparent 40%);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(26,23,21,0.008) 3px 4px),
+      repeating-linear-gradient(90deg, transparent 0 3px, rgba(26,23,21,0.008) 3px 4px);
+    pointer-events:none; z-index:1;
+  }
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:clamp(2rem, 5vw, 5rem) clamp(1.25rem, 4vw, 4rem);
+    position:relative; z-index:2;
+  }
+
+  /* TOP NAV */
+  .topnav{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:2.5rem;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-mute);
+    letter-spacing:0.05em;
+  }
+  .topnav a{
+    color:var(--ink-soft); text-decoration:none;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:2px;
+    transition:color 0.2s ease, border-color 0.2s ease;
+  }
+  .topnav a:hover{ color:var(--vermilion); border-color:var(--vermilion); }
+  .topnav .brand{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.95rem;
+    border:none;
+    padding:0;
+  }
+
+  /* MASTHEAD */
+  .masthead{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:end;
+    gap:2rem;
+    padding-bottom:1.5rem;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:0.4rem;
+  }
+  .kicker{
+    font-family:"EB Garamond","Noto Serif SC",serif;
+    font-style:italic; color:var(--vermilion);
+    font-size:clamp(0.95rem, 1.3vw, 1.15rem);
+  }
+  .kicker::before{ content:"❦  "; color:var(--ochre); font-style:normal; }
+  h1.title{
+    font-family:"Noto Serif SC", serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 6vw, 4.8rem);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    margin-top:0.3rem;
+  }
+  h1.title em{
+    font-family:"EB Garamond", serif;
+    font-style:italic; font-weight:500;
+    color:var(--vermilion);
+  }
+  .masthead-right{
+    display:flex; flex-direction:column;
+    align-items:flex-end;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.78rem; color:var(--ink-soft);
+    text-align:right; line-height:1.6;
+  }
+  .masthead-right .issue{
+    font-size:0.7rem; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--ink-mute);
+  }
+  .masthead-rule{
+    border-bottom:1px solid var(--ink);
+    height:6px; margin-bottom:2.5rem;
+  }
+
+  /* DECK */
+  .deck{
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.1rem, 1.6vw, 1.35rem);
+    line-height:1.55;
+    color:var(--ink-soft);
+    margin-bottom:3rem;
+    max-width:42rem;
+  }
+  .deck::first-letter{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-size:4.2em; float:left;
+    line-height:0.85;
+    margin:0.05em 0.12em -0.05em 0;
+    color:var(--vermilion); font-weight:700;
+  }
+
+  /* DRAMATIS — three positions */
+  .positions{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.5rem;
+    margin-bottom:3.5rem;
+    padding:1.5rem 0;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+  }
+  .position{
+    padding:0 0.5rem;
+  }
+  .position .name{
+    font-family:"Noto Serif SC", serif;
+    font-weight:700;
+    font-size:1.1rem;
+    color:var(--ink);
+    margin-bottom:0.2rem;
+  }
+  .position .stance{
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.95rem;
+    margin-bottom:0.5rem;
+  }
+  .position .desc{
+    color:var(--ink-soft);
+    font-size:0.86rem;
+    line-height:1.55;
+  }
+  @media (max-width:640px){
+    .positions{ grid-template-columns:1fr; gap:1rem; }
+    .position{ padding:0.6rem 0; border-top:1px dashed var(--rule); }
+    .position:first-child{ border-top:none; }
+  }
+
+  /* CONTENT WARNING */
+  .cw{
+    padding:1rem 1.2rem;
+    margin-bottom:3rem;
+    background:var(--paper-deep);
+    border-left:3px solid var(--ochre);
+    font-size:0.88rem;
+    color:var(--ink-soft);
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    line-height:1.55;
+  }
+  .cw::before{
+    content:"内容说明 · ";
+    font-family:"Noto Sans SC", sans-serif;
+    font-style:normal;
+    letter-spacing:0.1em;
+    color:var(--ochre);
+    font-size:0.72rem;
+    font-weight:700;
+    text-transform:uppercase;
+  }
+
+  /* TOPICS */
+  section.topic{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:clamp(1rem, 3vw, 2.5rem);
+    padding:2.5rem 0;
+    border-top:1px solid var(--rule);
+    align-items:baseline;
+  }
+  section.topic:first-of-type{ border-top:none; padding-top:0; }
+  .topic-num{
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    font-size:2.4rem;
+    color:var(--vermilion);
+    font-weight:500;
+    line-height:1;
+  }
+  h2.topic-title{
+    font-family:"Noto Serif SC", serif;
+    font-weight:700;
+    font-size:clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height:1.2;
+    margin-bottom:0.9rem;
+    letter-spacing:-0.01em;
+  }
+  h2.topic-title .accent{
+    font-family:"EB Garamond", serif;
+    font-style:italic; color:var(--vermilion);
+    font-weight:500;
+  }
+  .topic-body p{
+    font-size:1rem;
+    color:var(--ink-soft);
+    margin-bottom:0.9rem;
+  }
+  .topic-body p:last-child{ margin-bottom:0; }
+  .topic-body p strong{
+    color:var(--ink); font-weight:700;
+    background:linear-gradient(transparent 62%, rgba(201,140,42,0.28) 62%);
+    padding:0 2px;
+  }
+  .stance-line{
+    display:block;
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.88rem;
+    margin-bottom:0.4rem;
+    letter-spacing:0.02em;
+  }
+  .stance-line::before{
+    content:"—— ";
+    color:var(--ochre);
+  }
+
+  /* PULLQUOTE */
+  .pullquote{
+    margin:1.5rem 0;
+    padding:1.2rem 0;
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.1rem, 1.7vw, 1.35rem);
+    line-height:1.45;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .pullquote cite{
+    display:block;
+    margin-top:0.6rem;
+    font-family:"Noto Sans SC", sans-serif;
+    font-size:0.8rem;
+    font-style:normal;
+    color:var(--ink-mute);
+    letter-spacing:0.05em;
+  }
+  .pullquote cite::before{ content:"—— "; color:var(--vermilion); }
+
+  @media(max-width:640px){
+    section.topic{ grid-template-columns:1fr; gap:0.4rem; }
+    .topic-num{ font-size:1.6rem; }
+    .masthead{ grid-template-columns:1fr; }
+    .masthead-right{ align-items:flex-start; text-align:left; }
+  }
+
+  /* CONSENSUS */
+  .consensus{
+    margin-top:5rem;
+    padding:3rem 0;
+    border-top:2px solid var(--ink);
+    border-bottom:2px solid var(--ink);
+  }
+  .consensus h2{
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.5rem, 2.6vw, 2rem);
+    font-weight:900;
+    margin-bottom:1.5rem;
+  }
+  .consensus h2 em{
+    font-family:"EB Garamond", serif;
+    font-style:italic; color:var(--vermilion); font-weight:500;
+  }
+  .consensus-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:1.5rem 2.5rem;
+  }
+  .consensus-item{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:1rem;
+  }
+  .consensus-num{
+    font-family:"EB Garamond", serif;
+    font-style:italic; font-size:1.6rem;
+    color:var(--vermilion); line-height:1;
+    font-weight:500;
+  }
+  .consensus-item p{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    line-height:1.55;
+  }
+
+  /* COLOPHON */
+  .colophon{
+    text-align:center;
+    padding:3.5rem 0 1rem;
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--ink-mute);
+    font-size:0.85rem;
+  }
+  .colophon .ornament{
+    font-size:1.2rem;
+    color:var(--vermilion);
+    margin-bottom:0.6rem;
+    letter-spacing:0.6em;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <a href="../" class="brand">❦ AI Coffee Chat</a>
+    <a href="../">← 返回首页</a>
+  </nav>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <span class="kicker">Vol. 02 · 2026.05.12</span>
+      <h1 class="title">女性主义<br/><em>三种立场</em></h1>
+    </div>
+    <div class="masthead-right">
+      <span class="issue">Field Notes</span>
+      <span>三人对谈 · 录音整理</span>
+    </div>
+  </header>
+  <div class="masthead-rule"></div>
+
+  <!-- DECK -->
+  <p class="deck">
+    三个 MBTI 不同、思维方式经常打架的朋友，因为一部刚上映的南方家族题材电影聊起了女性主义。她们在四件事上反复交锋：当下还有没有压迫？职场歧视是个人问题还是结构问题？政策保护应该面向母亲还是所有女性？以及——要慢慢渗透还是要矫枉过正？
+  </p>
+
+  <!-- THREE POSITIONS -->
+  <div class="positions">
+    <div class="position">
+      <div class="name">可乐 <span style="color:var(--ink-mute); font-weight:400; font-size:0.85em;">ENFJ</span></div>
+      <div class="stance">矫枉必须过正</div>
+      <div class="desc">男权社会不会主动让渡，必须自己发声、自己上牌桌。</div>
+    </div>
+    <div class="position">
+      <div class="name">景 <span style="color:var(--ink-mute); font-weight:400; font-size:0.85em;">ESTP</span></div>
+      <div class="stance">渐进渗透</div>
+      <div class="desc">不喜欢矫枉过正，倾向慢慢爬到高位、用权力去改变。</div>
+    </div>
+    <div class="position">
+      <div class="name">九月 <span style="color:var(--ink-mute); font-weight:400; font-size:0.85em;">ESTJ</span></div>
+      <div class="stance">居中调和</div>
+      <div class="desc">认为利大于弊，需要更多而非更少的女性主义教育。</div>
+    </div>
+  </div>
+
+  <!-- CW -->
+  <div class="cw">
+    以下是三位朋友的现场对谈整理。所有观点仅代表各自立场，不代表本站态度。
+  </div>
+
+  <!-- TOPIC 1 -->
+  <section class="topic">
+    <div class="topic-num">I</div>
+    <div class="topic-body">
+      <h2 class="topic-title">当下还有没有<span class="accent">性别压迫</span>？</h2>
+      <span class="stance-line">景：现在已经相对平等了。</span>
+      <p>
+        景的起始立场是男女各自在擅长的领域发挥就好——女性在共情沟通上更强，男性在体力上更强，社会并没有显著歧视。
+      </p>
+      <p>
+        可乐反驳：所谓"女性更细腻"<strong>更多是社会教育塑造的，不是天生的</strong>。从小男孩被教育"有钱有权就有地位"，女孩被教育"要贤惠持家"——这种规训影响至今。她举武则天和叶卡捷琳娜二世为例：两位女皇执政时都展现出所谓"男性特质"，并都把国家推向巅峰。
+      </p>
+      <div class="pullquote">
+        不是性别决定能力，<br/>而是有没有机会站到那个位置上。
+        <cite>可乐</cite>
+      </div>
+      <p>
+        景说这是个例，不能代表群体。可乐回应：<strong>正因为女性从来没有机会站上去，所以才只有个例</strong>，但个例已经证明站上去同样可以。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section class="topic">
+    <div class="topic-num">II</div>
+    <div class="topic-body">
+      <h2 class="topic-title">职场歧视：<span class="accent">个人品质还是结构问题</span>？</h2>
+      <span class="stance-line">起点：九月分享被同事抢功的经历。</span>
+      <p>
+        景认为抢功劳男女都有，本质是个人人品。可乐从结构层面切入：<strong>同样是结婚生育，对男女的影响相反</strong>——男性"稳定了要好好干"是加分，女性"要回归家庭了"是减分。一旦怀孕离开两个月，在当前环境下基本会被边缘化。
+      </p>
+      <p>
+        她进一步延伸到丧偶式育儿：很多男性以"在外赚钱"为由不参与带孩子，导致<strong>母亲承担严父加慈母的双重角色</strong>；儿子从小没有父亲范本，长大后也不会做父亲，形成循环。而女性因育儿失去生产劳动价值，在家庭中的地位也隐性下降——因为经济基础决定上层建筑。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section class="topic">
+    <div class="topic-num">III</div>
+    <div class="topic-body">
+      <h2 class="topic-title">政策保护：<span class="accent">面向母亲还是面向所有女性</span>？</h2>
+      <span class="stance-line">景：只给生育过的女性保障。</span>
+      <p>
+        景认为：社会给女性的倾斜（如提前退休）本质上是因为生育功能。如果一个女性选择不生育，应当和男性完全同等对待。
+      </p>
+      <p>
+        可乐与九月反驳：<strong>企业没办法区分一个女性到底生不生</strong>——她在被招聘的那一刻是"薛定谔的状态"。所以企业会把所有育龄女性一视同仁地排除。真正的问题是<strong>政策没有给企业足够的经济补偿</strong>来抵消女性生育成本，导致排斥女性成为企业的"理性选择"。
+      </p>
+      <p>
+        景在这里调整了表述，提出具体方案：<strong>给雇佣怀孕员工的公司减税或补贴</strong>，用经济利益而非道德绑架来解决。三人都认同这个方向，但也指出政策颁布、落实、深入人心是三个完全不同的阶段。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section class="topic">
+    <div class="topic-num">IV</div>
+    <div class="topic-body">
+      <h2 class="topic-title">要<span class="accent">激进发声</span>，还是慢慢渗透？</h2>
+      <span class="stance-line">最尖锐的一轮。</span>
+      <p>
+        景反感被情绪裹挟、利用女权牟利的现象，倾向"自己先爬到高位，再用权力去改变"。
+      </p>
+      <p>
+        可乐引用毛泽东"必须打破天窗大家才会开窗"和鲁迅弃医从文的例子，坚持<strong>矫枉必须过正</strong>：男权社会不会主动让渡权利，必须自己发声、自己上牌桌；人性是自私的，不把不公说出来，对方会选择性看不见。
+      </p>
+      <div class="pullquote">
+        正因为很多女性还不了解什么是真正的觉醒，<br/>才会出现极端行为——这恰恰说明需要更多教育，而不是更少。
+        <cite>九月</cite>
+      </div>
+      <p>
+        九月居中调和：极端者是少数，<strong>不能因噎废食</strong>。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 5 -->
+  <section class="topic">
+    <div class="topic-num">V</div>
+    <div class="topic-body">
+      <h2 class="topic-title">具体现象：<span class="accent">那些被默认的日常</span></h2>
+      <p>
+        三人一起列举了大量被忽视的细节：
+      </p>
+      <p>
+        语音输入法默认"勇敢坚强"用男字、"漂亮温柔"用女字；综艺晚会男生长袖长裤、女生无袖短裙；女性主持人偶尔反向问男嘉宾"怎么平衡家庭和工作"会成为新闻；同样是天才数学家，男性与女性收到的舆论待遇完全不同；网络上对女性形象的双标——某些女性 cosplay/扮相会被举报封杀，而类似程度的男性内容无人在意；女生从小被说"后劲不足""适合读文科"。
+      </p>
+      <p>
+        还有非常细的：公共场所女厕所是否应该多建（同样的占地，男女出入效率完全不同）；以及一段从卫生角度论证"男性也应该坐着上厕所"的讨论——景表示自己之前没想过这个角度。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 6 -->
+  <section class="topic">
+    <div class="topic-num">VI</div>
+    <div class="topic-body">
+      <h2 class="topic-title">南方家族文化：<span class="accent">家产、丧葬与被默认的"不能"</span></h2>
+      <p>
+        潮汕地区分家产的传统：<strong>女儿嫁出去一分不分，全给儿子</strong>。景的妈妈这一代经历过姐妹分文未得、全被舅舅拿走，所以景父母这一代承诺会给她平分。但这种主动觉醒的比例可能只占 5–10%——更多女性家里装修完没有自己的房间。
+      </p>
+      <p>
+        景分享了外婆去世的经历：抬棺火化只有男性能参加。她原本说自己尊重这是文化、且抬棺是体力活。可乐和九月当场指出：<strong>"你不想参加"和"你没有选择参加"是两码事</strong>——你的选项里压根就没有"能"这个词，所以你只能在"不想"和"不在意"之间选。
+      </p>
+      <p>
+        另一个细节：外公外婆葬在哪里，女儿们都不知道，只有舅舅知道，逢十才能祭拜。景在这里承认：这确实是糟粕。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 7 -->
+  <section class="topic">
+    <div class="topic-num">VII</div>
+    <div class="topic-body">
+      <h2 class="topic-title">"自然女"<span class="accent">与社会规训</span></h2>
+      <p>
+        三人把景定义为"自然女"——<strong>未被社会性别规训的女性</strong>，从小没被灌输"女生要温柔""女生后劲不足"这类话语，所以以"自然人"身份成长。
+      </p>
+      <p>
+        但可乐和九月指出：像景这样的比例可能不到 1%。大部分女性从小接受的教育是忍让、温柔、不要出头，遭遇不公时不会为自己发声，甚至陷入抑郁。九月直接说景"何不食肉糜"——<strong>因为自身条件太好，会觉得"我能做到，你们为什么不可以"</strong>，但很多女性压根不知道一个成功女性是什么样的，视野里只有成家这一条路。
+      </p>
+      <p>
+        景在这里有所触动，承认自己可能有"社会达尔文"的倾向，也认同<strong>应该让更多女性看到另一种可能性</strong>。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 8 -->
+  <section class="topic">
+    <div class="topic-num">VIII</div>
+    <div class="topic-body">
+      <h2 class="topic-title">女权<span class="accent">真的导致少子化吗</span>？</h2>
+      <p>
+        景担忧女权思潮会加剧两性对立、不利于人口再生产。可乐和九月认为：<strong>人口下降是经济压力、教育水平提升等多因素叠加的结果</strong>，女权只是其中很小的一部分。
+      </p>
+      <p>
+        更关键的是——<strong>独立女性不等于不婚不育</strong>。独立的核心是"不依附他人、有自己的赚钱能力"，与婚育意愿没有必然冲突。把两者混为一谈本身就是一种叙事陷阱。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 9 -->
+  <section class="topic">
+    <div class="topic-num">IX</div>
+    <div class="topic-body">
+      <h2 class="topic-title">婚恋观：<span class="accent">权利与义务的平衡</span></h2>
+      <p>
+        景自称"权利义务对等派"：承认未来要生育、预见收入会下降，所以需要伴侣在经济上能承担。她试过向下兼容，发现接受不了比自己弱太多的男性。她的逻辑是——<strong>我承担生育的义务，对方就要承担更多经济责任</strong>。
+      </p>
+      <p>
+        九月补充：身边也有反向的——姐姐一直工作，丈夫在家带孩子。说明这种模式可行，只是比例很低。<strong>对等的不是性别本身，是分工的明确</strong>。
+      </p>
+    </div>
+  </section>
+
+  <!-- CONSENSUS -->
+  <section class="consensus">
+    <h2>三人都同意的<em> 几件事</em></h2>
+    <div class="consensus-grid">
+      <div class="consensus-item">
+        <div class="consensus-num">01</div>
+        <p>趋势不可逆——女性意识的觉醒会继续往下走。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">02</div>
+        <p>需要团结一切可以团结的力量，包括不完美的盟友。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">03</div>
+        <p>极端牟利者是少数，不应因噎废食。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">04</div>
+        <p>分歧主要在节奏与方式上——这本身就是一种值得讨论的差异。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <div class="ornament">❦ · ❦ · ❦</div>
+    Three friends. One conversation. Three positions worth recording.
+  </footer>
+
+</div>
+
+</body>
+</html>
