@@ -6,3 +6,6 @@ node_modules/
 
 # 本地会议纪要 (markdown 草稿，不上传)
 vol*/meeting-notes.md
+
+# 本地详尽版 HTML (仅本地保留)
+vol03/full/
