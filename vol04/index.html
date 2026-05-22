@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vol. 04 · 钱、对象与活得明白 — AI Coffee Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4ede0; --paper-deep:#ebe2cf;
+    --ink:#1a1715; --ink-soft:#4a4540; --ink-mute:#7a7269;
+    --rule:#d8cdb5;
+    --vermilion:#b8351e; --vermilion-deep:#8a2715;
+    --ochre:#c98c2a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Noto Sans SC", system-ui, sans-serif;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(184,53,30,0.04), transparent 35%),
+      radial-gradient(circle at 88% 92%, rgba(90,107,60,0.05), transparent 40%);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(26,23,21,0.008) 3px 4px),
+      repeating-linear-gradient(90deg, transparent 0 3px, rgba(26,23,21,0.008) 3px 4px);
+    pointer-events:none; z-index:1;
+  }
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:clamp(2rem, 5vw, 5rem) clamp(1.25rem, 4vw, 4rem);
+    position:relative; z-index:2;
+  }
+
+  /* TOP NAV */
+  .topnav{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:2.5rem;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-mute);
+    letter-spacing:0.05em;
+  }
+  .topnav a{
+    color:var(--ink-soft); text-decoration:none;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:2px;
+    transition:color 0.2s ease, border-color 0.2s ease;
+  }
+  .topnav a:hover{ color:var(--vermilion); border-color:var(--vermilion); }
+  .topnav .brand{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.95rem;
+    border:none;
+    padding:0;
+  }
+
+  /* MASTHEAD */
+  .masthead{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:end;
+    gap:2rem;
+    padding-bottom:1.5rem;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:0.4rem;
+  }
+  .kicker{
+    font-family:"EB Garamond","Noto Serif SC",serif;
+    font-style:italic; color:var(--vermilion);
+    font-size:clamp(0.95rem, 1.3vw, 1.15rem);
+  }
+  .kicker::before{ content:"❦  "; color:var(--ochre); font-style:normal; }
+  h1.title{
+    font-family:"Noto Serif SC", serif;
+    font-weight:900;
+    font-size:clamp(2.4rem, 6vw, 4.8rem);
+    line-height:0.98;
+    letter-spacing:-0.02em;
+    margin-top:0.3rem;
+  }
+  h1.title em{
+    font-family:"EB Garamond", serif;
+    font-style:italic; font-weight:500;
+    color:var(--vermilion);
+  }
+  .masthead-right{
+    display:flex; flex-direction:column;
+    align-items:flex-end;
+    font-family:"JetBrains Mono", monospace;
+    font-size:0.78rem; color:var(--ink-soft);
+    text-align:right; line-height:1.6;
+  }
+  .masthead-right .issue{
+    font-size:0.7rem; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--ink-mute);
+  }
+  .masthead-rule{
+    border-bottom:1px solid var(--ink);
+    height:6px; margin-bottom:2.5rem;
+  }
+
+  /* DECK */
+  .deck{
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.1rem, 1.6vw, 1.35rem);
+    line-height:1.55;
+    color:var(--ink-soft);
+    margin-bottom:3rem;
+    max-width:42rem;
+  }
+  .deck::first-letter{
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-size:4.2em; float:left;
+    line-height:0.85;
+    margin:0.05em 0.12em -0.05em 0;
+    color:var(--vermilion); font-weight:700;
+  }
+
+  /* DRAMATIS — three voices */
+  .positions{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.5rem;
+    margin-bottom:3.5rem;
+    padding:1.5rem 0;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+  }
+  .position{ padding:0 0.5rem; }
+  .position .name{
+    font-family:"Noto Serif SC", serif;
+    font-weight:700;
+    font-size:1.1rem;
+    color:var(--ink);
+    margin-bottom:0.2rem;
+  }
+  .position .stance{
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.95rem;
+    margin-bottom:0.5rem;
+  }
+  .position .desc{
+    color:var(--ink-soft);
+    font-size:0.86rem;
+    line-height:1.55;
+  }
+  @media (max-width:640px){
+    .positions{ grid-template-columns:1fr; gap:1rem; }
+    .position{ padding:0.6rem 0; border-top:1px dashed var(--rule); }
+    .position:first-child{ border-top:none; }
+  }
+
+  /* TOPICS */
+  section.topic{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:clamp(1rem, 3vw, 2.5rem);
+    padding:2.5rem 0;
+    border-top:1px solid var(--rule);
+    align-items:baseline;
+  }
+  section.topic:first-of-type{ border-top:none; padding-top:0; }
+  .topic-num{
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    font-size:2.4rem;
+    color:var(--vermilion);
+    font-weight:500;
+    line-height:1;
+  }
+  h2.topic-title{
+    font-family:"Noto Serif SC", serif;
+    font-weight:700;
+    font-size:clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height:1.2;
+    margin-bottom:0.9rem;
+    letter-spacing:-0.01em;
+  }
+  h2.topic-title .accent{
+    font-family:"EB Garamond", serif;
+    font-style:italic; color:var(--vermilion);
+    font-weight:500;
+  }
+  .topic-body p{
+    font-size:1rem;
+    color:var(--ink-soft);
+    margin-bottom:0.9rem;
+  }
+  .topic-body p:last-child{ margin-bottom:0; }
+  .topic-body p strong{
+    color:var(--ink); font-weight:700;
+    background:linear-gradient(transparent 62%, rgba(201,140,42,0.28) 62%);
+    padding:0 2px;
+  }
+  .stance-line{
+    display:block;
+    font-family:"EB Garamond","Noto Serif SC", serif;
+    font-style:italic;
+    color:var(--vermilion);
+    font-size:0.88rem;
+    margin-bottom:0.4rem;
+    letter-spacing:0.02em;
+  }
+  .stance-line::before{
+    content:"—— ";
+    color:var(--ochre);
+  }
+  ul.bullets{
+    list-style:none;
+    margin:0.6rem 0;
+    padding:0;
+  }
+  ul.bullets li{
+    padding:0.2rem 0 0.2rem 1.2rem;
+    position:relative;
+    color:var(--ink-soft);
+  }
+  ul.bullets li::before{
+    content:"▸";
+    position:absolute;
+    left:0;
+    color:var(--vermilion);
+  }
+
+  /* PULLQUOTE */
+  .pullquote{
+    margin:1.5rem 0;
+    padding:1.2rem 0;
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.1rem, 1.7vw, 1.35rem);
+    line-height:1.45;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .pullquote cite{
+    display:block;
+    margin-top:0.6rem;
+    font-family:"Noto Sans SC", sans-serif;
+    font-size:0.8rem;
+    font-style:normal;
+    color:var(--ink-mute);
+    letter-spacing:0.05em;
+  }
+  .pullquote cite::before{ content:"—— "; color:var(--vermilion); }
+
+  @media(max-width:640px){
+    section.topic{ grid-template-columns:1fr; gap:0.4rem; }
+    .topic-num{ font-size:1.6rem; }
+    .masthead{ grid-template-columns:1fr; }
+    .masthead-right{ align-items:flex-start; text-align:left; }
+  }
+
+  /* CONSENSUS */
+  .consensus{
+    margin-top:5rem;
+    padding:3rem 0;
+    border-top:2px solid var(--ink);
+    border-bottom:2px solid var(--ink);
+  }
+  .consensus h2{
+    font-family:"Noto Serif SC", serif;
+    font-size:clamp(1.5rem, 2.6vw, 2rem);
+    font-weight:900;
+    margin-bottom:1.5rem;
+  }
+  .consensus h2 em{
+    font-family:"EB Garamond", serif;
+    font-style:italic; color:var(--vermilion); font-weight:500;
+  }
+  .consensus-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:1.5rem 2.5rem;
+  }
+  .consensus-item{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:1rem;
+  }
+  .consensus-num{
+    font-family:"EB Garamond", serif;
+    font-style:italic; font-size:1.6rem;
+    color:var(--vermilion); line-height:1;
+    font-weight:500;
+  }
+  .consensus-item p{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    line-height:1.55;
+  }
+
+  /* COLOPHON */
+  .colophon{
+    text-align:center;
+    padding:3.5rem 0 1rem;
+    font-family:"EB Garamond", serif;
+    font-style:italic;
+    color:var(--ink-mute);
+    font-size:0.85rem;
+  }
+  .colophon .ornament{
+    font-size:1.2rem;
+    color:var(--vermilion);
+    margin-bottom:0.6rem;
+    letter-spacing:0.6em;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <a href="../" class="brand">❦ AI Coffee Chat</a>
+    <a href="../">← 返回首页</a>
+  </nav>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <span class="kicker">Vol. 04 · 2026.05.19</span>
+      <h1 class="title">钱、对象<br/>与<em>活得明白</em></h1>
+    </div>
+    <div class="masthead-right">
+      <span class="issue">Field Notes</span>
+      <span>三人深聊 · 录音整理</span>
+    </div>
+  </header>
+  <div class="masthead-rule"></div>
+
+  <!-- DECK -->
+  <p class="deck">
+    三个完全不同人生路径的人，在一个下午聊透了副业、创业、炒股、AI 工具、传统工厂、潮汕家庭和避雷恋爱。最后回到同一个问题——什么样的活法是"活得明白"？三个答案不同，但都自洽。
+  </p>
+
+  <!-- THREE VOICES -->
+  <div class="positions">
+    <div class="position">
+      <div class="name">汕头炒股女生 <span style="color:var(--ink-mute); font-weight:400; font-size:0.85em;">ESTJ</span></div>
+      <div class="stance">出售资本而非时间</div>
+      <div class="desc">平台运营，朝九晚六，靠妖股短线月入几千，目标是早点退休环游世界。</div>
+    </div>
+    <div class="position">
+      <div class="name">技术沉淀的小哥 <span style="color:var(--ink-mute); font-weight:400; font-size:0.85em;">25 届</span></div>
+      <div class="stance">等一个窗口期</div>
+      <div class="desc">毕业后换了三家硬件创业公司做算法，明年想自己做 AI + 教育方向。</div>
+    </div>
+    <div class="position">
+      <div class="name">副业先行的主理人 <span style="color:var(--ink-mute); font-weight:400; font-size:0.85em;">ENFJ</span></div>
+      <div class="stance">入职大厂学营销 + 副业做品牌</div>
+      <div class="desc">即将入职某消费电子公司，同时在给传统工厂做品牌系统。</div>
+    </div>
+  </div>
+
+  <!-- TOPIC 1 -->
+  <section class="topic">
+    <div class="topic-num">I</div>
+    <div class="topic-body">
+      <h2 class="topic-title">线下沟通的<span class="accent">不可替代</span></h2>
+      <p>
+        当大家都在追逐 AI 的远端化，主理人提出一个反共识的判断：<strong>最后一定会回归到人身上</strong>。
+      </p>
+      <p>
+        信号采样定理类比：文字、语音、视频会议都是采样后的失真信号，<strong>线下面对面是原始数据</strong>，包含语气、语速、情绪、肢体、眼神——多巴胺的"快感"主要在线下产生。
+      </p>
+      <p>
+        附带的社群管理判断：<strong>30 人是社群弱连接的物理上限</strong>，再多就只是泛泛之交。不主动组织过多活动，避免消耗在社区里的话语权。
+      </p>
+      <div class="pullquote">
+        现在大家都在追逐 AI 的远端化。<br/>但我觉得最后一定会回归到人身上。
+        <cite>主理人 · 关于线下产品</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 2 -->
+  <section class="topic">
+    <div class="topic-num">II</div>
+    <div class="topic-body">
+      <h2 class="topic-title">妖股短线 · <span class="accent">一个炒股女生的方法论</span></h2>
+      <span class="stance-line">汕头女生：我上班就是为了去炒股，赚个社保。</span>
+      <p>
+        她做的是<strong>超短线妖股</strong>（一天涨停一天跌停），不是大宗商品也不是长线。已经做到稳定盈利。
+      </p>
+      <p>判断好坏的标准只有一条：</p>
+      <ul class="bullets">
+        <li>一个月内 <strong>赚的天数 &gt; 亏的天数</strong> 就可以继续做</li>
+        <li>跟踪资金流向，看主力心理</li>
+        <li><strong>不抄作业</strong>——给你财富代码你也会死得很快，因为你不知道什么时候走</li>
+        <li>看新闻联播找趋势信号</li>
+      </ul>
+      <div class="pullquote">
+        你赚不到自己认知之外的钱。<br/>炒股不是赌大小，是读懂主力与散户的心理。
+        <cite>汕头女生 · 关于炒股本质</cite>
+      </div>
+      <p>
+        她对打工的态度极清晰：<strong>"我不喜欢出售自己的时间，我喜欢用资本为我赚钱。"</strong>请最优秀的人来帮她做就好，她不需要什么都会。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 3 -->
+  <section class="topic">
+    <div class="topic-num">III</div>
+    <div class="topic-body">
+      <h2 class="topic-title">互联网爆点公式：<span class="accent">起号术四件套</span></h2>
+      <p>
+        女生想做小红书股票博主，已经有 2000+ 粉丝，但卡在"豁不出去发照片"。主理人给的<strong>爆点公式</strong>：
+      </p>
+      <ul class="bullets">
+        <li><strong>噱头</strong> —— 夸张昵称、夸张个签</li>
+        <li><strong>男女对立</strong></li>
+        <li><strong>阶级对立</strong></li>
+        <li><strong>标题党</strong></li>
+        <li><strong>发照片</strong>（这是分水岭——不发美色起号几乎做不起来）</li>
+      </ul>
+      <p>
+        她的回应："我还是想靠实力。"主理人点评：<strong>那就先搁一搁，你的天赋点都点在炒股上了。</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 4 -->
+  <section class="topic">
+    <div class="topic-num">IV</div>
+    <div class="topic-body">
+      <h2 class="topic-title">录音硬件 · <span class="accent">中产女性的情绪记录</span></h2>
+      <span class="stance-line">技术沉淀的小哥：在做一款手链型录音设备。</span>
+      <p>
+        相比同类的"卡片型 + 会议纪要工具"，他们做的手链定位是<strong>纯记录 + 情绪价值</strong>——"当成珠宝佩戴"。
+      </p>
+      <p>用户画像非常精准：</p>
+      <ul class="bullets">
+        <li>30-35 岁中产女性</li>
+        <li>生活转折期，需要自我觉察</li>
+        <li>主战场北美（中产付费意愿强、对新奇硬件接受度高）</li>
+        <li>不卖国内（男生戴首饰不接受、消费力低、极客一眼看穿）</li>
+      </ul>
+      <p>
+        长期产品愿景：用户的长期 context（100 天录音）能否变成<strong>"自我画像 → 解决具体生活问题"</strong>的入口。
+      </p>
+      <div class="pullquote">
+        小而美一旦扩张化必死。<br/>沟通成本指数级增长——你跟 8 个团队一直堆在那里排期，一年都排不完。
+        <cite>关于初创团队的天花板</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC 5 -->
+  <section class="topic">
+    <div class="topic-num">V</div>
+    <div class="topic-body">
+      <h2 class="topic-title">中国办公软件的<span class="accent">用户分层</span></h2>
+      <p>
+        一个有意思的横切观察：同样是协同工具，对应的是完全不同的用户群体。
+      </p>
+      <ul class="bullets">
+        <li><strong>飞书</strong> —— 科技公司 / 互联网（"非主流但好用，除了腾讯没人用企微"）</li>
+        <li><strong>钉钉</strong> —— 传统制造业老板（"操作简单、功能少"，老板就是为了"钉一下"提醒员工）</li>
+        <li><strong>企业微信</strong> —— 传统大公司</li>
+      </ul>
+      <p>
+        钉钉对传统制造业老板来说<strong>非常好用</strong>——他们流程很简单：询盘进来 → 对接客户信息 → 签合同 → 找就近工厂下单。多余的功能反而是负担。
+      </p>
+      <p>
+        关于<strong>大模型语音体验</strong>：豆包的语音交互被三人共同评价为"全球独一档"（实时打电话、流式模型）；但搜索类问题"10 个有 9 个错"。会议纪要 ASR 豆包最好，声纹分离讯飞/阿里更强。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 6 -->
+  <section class="topic">
+    <div class="topic-num">VI</div>
+    <div class="topic-body">
+      <h2 class="topic-title">副业 · <span class="accent">给传统工厂做品牌系统</span></h2>
+      <span class="stance-line">所有人问的第一个问题：你不就是帮他们做个网站吗？</span>
+      <p>
+        主理人目前最赚钱的副业：给传统制造业老板做品牌官网 + 营销系统。但<strong>真正卖的不是网站，是品牌系统</strong>：
+      </p>
+      <ul class="bullets">
+        <li>品牌定位</li>
+        <li>视觉系统（专业、稳重、信任背书感）</li>
+        <li>给员工用的内容生成工具（一键出图出文案，员工只做复制粘贴）</li>
+        <li>整套对外营销链路：认证页、合作案例页、产品分类页</li>
+      </ul>
+
+      <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin:1.5rem 0 0.6rem; color:var(--ink);">真实案例 · 一个面料厂的设计逻辑</h3>
+      <ul class="bullets">
+        <li><strong>不要把所有品类都上</strong>——你做得最好的一类专注做，其他剔除</li>
+        <li><strong>首页第一屏不是新品，是合作过的大客户</strong>——B 端生意先看你跟谁合作过</li>
+        <li><strong>英文 logo 用小写</strong>——大写有"驱动感和进攻感"适合消费品，小写更稳重适合 B 端</li>
+        <li><strong>必须贴所有认证</strong>——"别人知道你有就不用再问了"</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TOPIC 7 -->
+  <section class="topic">
+    <div class="topic-num">VII</div>
+    <div class="topic-body">
+      <h2 class="topic-title">卖给老板的<span class="accent">不是方案，是想象力</span></h2>
+      <p>
+        跟工厂老板沟通的核心不是"我能帮你做什么"，是<strong>"你这个东西原来还能这么用"</strong>。
+      </p>
+
+      <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin:1.5rem 0 0.6rem; color:var(--ink);">经典案例（黄酒）</h3>
+      <p>
+        某黄酒厂找你做品牌。常规方案"帮你做 TVC、海报、传播"很难成交。换个角度：
+      </p>
+      <ul class="bullets">
+        <li>餐桌上喝白酒、喝啤酒之外，<strong>能不能有第三个选择？</strong></li>
+        <li>把黄酒装进易拉罐（模仿啤酒形态、适配快速喝的场景）</li>
+        <li>瞄准餐桌上想喝点养生的女性</li>
+        <li>吃辣的场景配它喝</li>
+        <li><strong>老板当天就成交</strong></li>
+      </ul>
+
+      <div class="pullquote">
+        他原来想到的产品只能在一个场景用。<br/>你给他一个鬼点子——"换个场景、换个说法，<br/>好像真的能有人买"——他晚上会睡不着觉。
+        <cite>实战方法 · 卖给中小企业</cite>
+      </div>
+
+      <p>
+        关于<strong>厂二代 vs 老登</strong>：厂二代（30 岁左右）好撬动——他们都想证明自己跟父辈不一样，给他一套品牌体系能让他在父亲面前展示"我这一代是有新东西的"。老登（40-50 岁）难撬动——你再怎么聊他都觉得"把产品做好就行了"。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 8 -->
+  <section class="topic">
+    <div class="topic-num">VIII</div>
+    <div class="topic-body">
+      <h2 class="topic-title">AI + 教育 · <span class="accent">高端化的真痛点</span></h2>
+      <span class="stance-line">技术沉淀的小哥：明年想做这个方向。</span>
+      <p>
+        国内幼儿园大约 60% 是传统模式（念古诗做作业），另外 40% 是<strong>"安吉游戏 / 自主游戏"模式</strong>——小朋友自己玩沙、玩积木、决定社交对象，教师做观察者不引导，下午有"一对一倾听"让小朋友自己复述。
+      </p>
+      <p>
+        AI 多模态可以帮教师把这种<strong>"观察记录"</strong>自动生成报告。这事的关键判断：
+      </p>
+      <div class="pullquote">
+        报告其实不需要那么准——<br/>家长只看一眼，知道自己孩子安全就行。<br/>对正确率敏感度低 + 对存在感敏感度高 = 完美 AI 应用场景。
+        <cite>方法论 · AI 应用的隐藏需求</cite>
+      </div>
+      <p>
+        为什么是<strong>高端化</strong>：生育率下降，但有钱人鸡娃反而更卷。高端家长愿意为"细致的观察记录"付费——这部分用户的付费意愿，跟整体生育率反向走。
+      </p>
+    </div>
+  </section>
+
+  <!-- TOPIC 9 -->
+  <section class="topic">
+    <div class="topic-num">IX</div>
+    <div class="topic-body">
+      <h2 class="topic-title">避雷恋爱 · <span class="accent">软硬件兼容论</span></h2>
+      <p>
+        三人都"被前任伤害过"的共鸣。共识："想太多、内耗、希望你什么都不说就能理解他"的类型尤其需要避雷。
+      </p>
+
+      <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin:1.5rem 0 0.6rem; color:var(--ink);">软硬件兼容论（汕头女生提出）</h3>
+      <ul class="bullets">
+        <li><strong>"硬件"</strong> = 客观条件（家庭、地域、教育、经济、思维方式）</li>
+        <li><strong>"软件"</strong> = 软实力（认知、表达、情商）</li>
+        <li>硬件每一样都不兼容的，就很难走到一起</li>
+      </ul>
+
+      <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin:1.5rem 0 0.6rem; color:var(--ink);">体制内 vs 经商家庭</h3>
+      <p>
+        两种家庭出来的人思维方式完全相反：
+      </p>
+      <ul class="bullets">
+        <li><strong>体制内</strong>：思考"怎么当好一个高级打工人 / 服务好我的老板"</li>
+        <li><strong>经商家庭</strong>：思考"怎么当好一个老板 / 怎么挑到好的员工"</li>
+        <li>家庭基因决定思维基线，<strong>很难在恋爱阶段被改变</strong></li>
+      </ul>
+
+      <div class="pullquote">
+        他想的是怎么把自己卖一个好价钱。<br/>我想的是怎么当好一个老板。
+        <cite>汕头女生 · 关于相亲</cite>
+      </div>
+
+      <p>
+        共同的择偶共识：<strong>筛选 &gt; 改变</strong>。
+      </p>
+    </div>
+  </section>
+
+  <!-- CONSENSUS -->
+  <section class="consensus">
+    <h2>三人都同意的<em> 几件事</em></h2>
+    <div class="consensus-grid">
+      <div class="consensus-item">
+        <div class="consensus-num">01</div>
+        <p>认知决定一切——你赚不到自己认知之外的钱。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">02</div>
+        <p>自洽优先——"我觉得我自己舒服就行了，不需要被定义。"</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">03</div>
+        <p>包容反而是优势——内行跟内行聊多了容易失去真实用户视角。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">04</div>
+        <p>资源是杠杆，但不能纯靠资源。你能动用多少社会价值 / 信誉倍数才是关键。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">05</div>
+        <p>价值判断回归"能否赚到钱"——扯太多天马行空没用，看你到底能产出多少。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">06</div>
+        <p>筛选 &gt; 改变——对人、对项目、对恋爱对象都适用。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">07</div>
+        <p>小而美比扩张更长寿——创业团队一旦臃肿化必死。</p>
+      </div>
+      <div class="consensus-item">
+        <div class="consensus-num">08</div>
+        <p>30 人是社群弱连接的物理上限。再多就只是泛泛之交。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <div class="ornament">❦ · ❦ · ❦</div>
+    Three voices. One afternoon. Three ways of being okay with yourself.
+  </footer>
+
+</div>
+
+</body>
+</html>
