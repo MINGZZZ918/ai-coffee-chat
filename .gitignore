@@ -13,3 +13,8 @@ vol*/generate-docx.js
 vol03/full/
 vol04/full/
 vol05/full/
+vol06/full/
+
+# 本地实验版 (仅本地保留)
+vol*/prose.html
+vol*/index-v*.html
