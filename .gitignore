@@ -14,7 +14,11 @@ vol03/full/
 vol04/full/
 vol05/full/
 vol06/full/
+vol07/full/
 
 # 本地实验版 (仅本地保留)
 vol*/prose.html
 vol*/index-v*.html
+
+# 本地读书笔记 (仅本地保留，涉及第三方内部细节)
+reading/
